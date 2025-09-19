@@ -14,7 +14,7 @@ function App() {
 
   useEffect(() => {
     // Change URL if needed
-    fetch('http://localhost:8000/api/sections')
+    fetch('http://api.ravicloudexper.online/api/sections')
       .then(res => res.json())
       .then(setSections)
       .catch(() => setSections([]));
