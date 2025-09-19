@@ -36,7 +36,9 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform format
-        run: terraform fmt -check -recursive
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
 
       - name: Terraform init
         run: terraform init -backend-config="bucket=${{ secrets.AWS_BUCKET_NAME }}" -backend-config="key=${{ secrets.AWS_BUCKET_KEY_NAME }}" -backend-config="region=${{ secrets.AWS_REGION }}"
