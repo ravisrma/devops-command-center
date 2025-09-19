@@ -1,0 +1,977 @@
+- name: Linux & System
+  subsections:
+    - name: Red Hat Linux Commands
+      commands:
+        - label: List files
+          command: ls -l
+        - label: Show hidden files
+          command: ls -a
+        - label: Current directory
+          command: pwd
+        - label: Disk usage
+          command: du -sh *
+        - label: File permissions
+          command: ls -l
+        - label: System uptime
+          command: uptime
+        - label: Kernel version
+          command: uname -r
+        - label: Check memory
+          command: free -h
+        - label: Check CPU
+          command: lscpu
+        - label: IP information
+          command: ip a
+        - label: Show disk partitions
+          command: fdisk -l
+        - label: List block devices
+          command: lsblk
+        - label: Show PCI devices
+          command: lspci
+        - label: Show USB devices
+          command: lsusb
+        - label: Show all environment variables
+          command: printenv
+        - label: List all installed packages (yum)
+          command: yum list installed
+        - label: Check yum repository list
+          command: yum repolist
+        - label: Search package (yum)
+          command: yum search <package>
+        - label: Show service status
+          command: systemctl status <service>
+        - label: Start a service
+          command: systemctl start <service>
+        - label: Stop a service
+          command: systemctl stop <service>
+        - label: Restart a service
+          command: systemctl restart <service>
+        - label: Enable service at boot
+          command: systemctl enable <service>
+        - label: Disable service at boot
+          command: systemctl disable <service>
+        - label: Show open network ports
+          command: netstat -tulnp
+
+    - name: System Administration
+      commands:
+        - label: Reboot Server
+          command: reboot
+        - label: Shutdown Server
+          command: shutdown -h now
+        - label: List users
+          command: cat /etc/passwd
+        - label: List groups
+          command: cat /etc/group
+        - label: Show running processes
+          command: ps aux
+        - label: Kill process by PID
+          command: kill -9 <pid>
+        - label: Change password
+          command: passwd <user>
+        - label: Check open ports
+          command: netstat -tuln
+        - label: Show system hostname
+          command: hostnamectl
+        - label: Check crontab
+          command: crontab -l
+        - label: Edit crontab
+          command: crontab -e
+        - label: Show last logins
+          command: last
+        - label: Switch user
+          command: su - <user>
+        - label: Become root
+          command: sudo -i
+        - label: Add user
+          command: useradd <username>
+        - label: Add user to group
+          command: usermod -aG <group> <user>
+        - label: Delete user
+          command: userdel <username>
+        - label: Lock user account
+          command: usermod -L <user>
+        - label: Unlock user account
+          command: usermod -U <user>
+        - label: List all running services
+          command: systemctl list-units --type=service
+        - label: Show logs for a service
+          command: journalctl -u <service>
+        - label: Find processes using a port
+          command: lsof -i :<port>
+        - label: Show all open files
+          command: lsof
+
+    - name: File Operations
+      commands:
+        - label: Copy file
+          command: cp source dest
+        - label: Move file
+          command: mv source dest
+        - label: Remove file
+          command: rm file
+        - label: Remove directory recursively
+          command: rm -rf dir
+        - label: Change file permissions
+          command: chmod 755 file
+        - label: Change file owner
+          command: chown user:group file
+        - label: Create new directory
+          command: mkdir dir
+        - label: Find files
+          command: find . -name "*.log"
+        - label: Create empty file
+          command: touch <file>
+        - label: View file content (cat)
+          command: cat <file>
+        - label: View file content (less)
+          command: less <file>
+        - label: Head of file
+          command: head <file>
+        - label: Tail of file
+          command: tail <file>
+        - label: Archive with tar
+          command: tar -czvf archive.tar.gz <dir_or_file>
+        - label: Extract tar.gz archive
+          command: tar -xzvf archive.tar.gz
+        - label: Find largest files
+          command: du -ah . | sort -rh | head -n 10
+        - label: Copy directory recursively
+          command: cp -r <src> <dest>
+        - label: Remove empty directories
+          command: find . -type d -empty -delete
+        - label: Find and delete .tmp files
+          command: find . -name "*.tmp" -delete
+        - label: Symbolic link
+          command: ln -s <target> <link>
+        - label: Count lines in file
+          command: wc -l <file>
+        - label: Change group ownership
+          command: chgrp <group> <file>
+        - label: Find files larger than 100MB
+          command: find . -size +100M
+
+    - name: Networking
+      commands:
+        - label: Ping host
+          command: ping <host>
+        - label: Check DNS
+          command: nslookup <domain>
+        - label: Download file (wget)
+          command: wget <url>
+        - label: Download file (curl)
+          command: curl -O <url>
+        - label: Test port with netcat
+          command: nc -zv <host> <port>
+        - label: Show routing table
+          command: netstat -rn
+        - label: Show all network interfaces
+          command: ip addr
+        - label: Show ARP table
+          command: arp -a
+        - label: Show listening TCP ports
+          command: ss -tln
+        - label: Show open ports (ss)
+          command: ss -tuln
+        - label: Trace network path
+          command: traceroute <host>
+        - label: DNS lookup (dig)
+          command: dig <domain>
+        - label: Show IP route table
+          command: ip route
+        - label: Show network interfaces (ip link)
+          command: ip link show
+        - label: Download file (scp)
+          command: scp user@host:/path/file .
+        - label: Upload file (scp)
+          command: scp file user@host:/path/
+        - label: HTTP check
+          command: curl -I <url>
+        - label: Test speed
+          command: speedtest-cli
+        - label: Show active connections
+          command: ss -tunap
+        - label: Show ARP cache
+          command: ip neigh
+        - label: Show all listening ports
+          command: netstat -an | grep LISTEN
+        - label: Show established connections
+          command: netstat -an | grep ESTABLISHED
+        - label: Show bandwidth usage (iftop)
+          command: iftop
+        - label: Show open sockets
+          command: ss -s
+
+    - name: Package Management
+      commands:
+        - label: Install package (yum)
+          command: yum install <package>
+        - label: Remove package (yum)
+          command: yum remove <package>
+        - label: Update all packages (yum)
+          command: yum update
+        - label: Install package (apt)
+          command: apt-get install <package>
+        - label: Remove package (apt)
+          command: apt-get remove <package>
+        - label: Update all packages (apt)
+          command: apt-get update
+        - label: Search yum packages
+          command: yum search <package>
+        - label: Check installed rpm
+          command: rpm -q <package>
+        - label: List enabled repos
+          command: yum repolist enabled
+        - label: List all installed packages (Debian)
+          command: dpkg -l
+        - label: List all installed packages (RHEL)
+          command: rpm -qa
+        - label: Install local rpm
+          command: rpm -ivh <package>.rpm
+        - label: Remove local rpm
+          command: rpm -e <package>
+        - label: Show package info (rpm)
+          command: rpm -qi <package>
+        - label: Show package files (rpm)
+          command: rpm -ql <package>
+        - label: Find which package owns file
+          command: rpm -qf <file>
+        - label: Clean yum cache
+          command: yum clean all
+        - label: Upgrade all packages (apt)
+          command: apt-get upgrade
+        - label: Hold package (apt)
+          command: apt-mark hold <package>
+        - label: Unhold package (apt)
+          command: apt-mark unhold <package>
+        - label: Remove unused packages (apt)
+          command: apt-get autoremove
+        - label: Remove unused packages (yum)
+          command: yum autoremove
+        - label: Check package dependencies (yum)
+          command: repoquery --requires --resolve <package>
+        - label: List available updates (yum)
+          command: yum check-update
+
+- name: Containerization
+  subsections:
+    - name: Docker Commands
+      commands:
+        - label: List containers
+          command: docker ps
+        - label: List all containers
+          command: docker ps -a
+        - label: Start container
+          command: docker start <container>
+        - label: Stop container
+          command: docker stop <container>
+        - label: Remove container
+          command: docker rm <container>
+        - label: Remove image
+          command: docker rmi <image>
+        - label: List images
+          command: docker images
+        - label: Run container
+          command: docker run -d --name <name> <image>
+        - label: Exec shell in container
+          command: docker exec -it <container> /bin/bash
+        - label: View logs
+          command: docker logs <container>
+        - label: Build image
+          command: docker build -t <tag> .
+        - label: Pull image
+          command: docker pull <image>
+        - label: Push image
+          command: docker push <image>
+        - label: Prune unused objects
+          command: docker system prune
+        - label: Show container stats
+          command: docker stats
+        - label: Show image history
+          command: docker history <image>
+        - label: Inspect container
+          command: docker inspect <container>
+        - label: Save image to file
+          command: docker save -o <file>.tar <image>
+        - label: Load image from file
+          command: docker load -i <file>.tar
+        - label: Tag image
+          command: docker tag <image> <repo>/<image>:<tag>
+        - label: Login to DockerHub
+          command: docker login
+        - label: Logout from DockerHub
+          command: docker logout
+        - label: Show Docker version
+          command: docker version
+        - label: Show Docker info
+          command: docker info
+
+    - name: Kubernetes Commands
+      commands:
+        - label: Get pods
+          command: kubectl get pods
+        - label: Get services
+          command: kubectl get svc
+        - label: Get deployments
+          command: kubectl get deploy
+        - label: Describe pod
+          command: kubectl describe pod <pod>
+        - label: Logs for pod
+          command: kubectl logs <pod>
+        - label: Apply manifest
+          command: kubectl apply -f <file>.yaml
+        - label: Delete resource
+          command: kubectl delete -f <file>.yaml
+        - label: Exec into pod
+          command: kubectl exec -it <pod> -- /bin/bash
+        - label: Scale deployment
+          command: kubectl scale deployment <deployment> --replicas=3
+        - label: Get nodes
+          command: kubectl get nodes
+        - label: Get namespaces
+          command: kubectl get ns
+        - label: Set context
+          command: kubectl config use-context <context>
+        - label: Get events
+          command: kubectl get events
+        - label: Get pod YAML
+          command: kubectl get pod <pod> -o yaml
+        - label: Port forward
+          command: kubectl port-forward <pod> 8080:80
+        - label: Set image on deployment
+          command: kubectl set image deployment/<deploy> <container>=<image>:<tag>
+        - label: Rollout status
+          command: kubectl rollout status deployment/<deploy>
+        - label: Rollback deployment
+          command: kubectl rollout undo deployment/<deploy>
+        - label: Delete pod
+          command: kubectl delete pod <pod>
+        - label: Get configmaps
+          command: kubectl get configmaps
+        - label: Get secrets
+          command: kubectl get secrets
+        - label: View all resources in namespace
+          command: kubectl get all -n <namespace>
+        - label: Edit resource
+          command: kubectl edit <resource>/<name>
+        - label: Create namespace
+          command: kubectl create namespace <name>
+
+    - name: Helm Commands
+      commands:
+        - label: List releases
+          command: helm list
+        - label: Install chart
+          command: helm install <release> <chart>
+        - label: Upgrade release
+          command: helm upgrade <release> <chart>
+        - label: Uninstall release
+          command: helm uninstall <release>
+        - label: Show values
+          command: helm show values <chart>
+        - label: Dry run install
+          command: helm install --dry-run --debug <release> <chart>
+        - label: List all charts
+          command: helm search repo
+        - label: Get release status
+          command: helm status <release>
+        - label: Rollback release
+          command: helm rollback <release> <rev>
+        - label: List repositories
+          command: helm repo list
+        - label: Add repository
+          command: helm repo add <name> <url>
+        - label: Update repositories
+          command: helm repo update
+        - label: Show chart README
+          command: helm show readme <chart>
+        - label: Get chart info
+          command: helm show chart <chart>
+        - label: Show chart dependencies
+          command: helm dependency list <chart>
+        - label: Update chart dependencies
+          command: helm dependency update <chart>
+        - label: Lint chart
+          command: helm lint <chart>
+        - label: Pull chart package
+          command: helm pull <chart>
+        - label: Template chart
+          command: helm template <chart>
+        - label: Export values to file
+          command: helm get values <release> > values.yaml
+        - label: List installed plugins
+          command: helm plugin list
+        - label: Install plugin
+          command: helm plugin install <url>
+        - label: Uninstall plugin
+          command: helm plugin uninstall <name>
+        - label: Show chart manifests
+          command: helm get manifest <release>
+
+- name: Automation & IaC
+  subsections:
+    - name: Ansible Commands
+      commands:
+        - label: Run playbook
+          command: ansible-playbook <playbook>.yml -i <inventory>
+        - label: Ping all hosts
+          command: ansible all -m ping -i <inventory>
+        - label: List hosts
+          command: ansible-inventory -i <inventory> --list
+        - label: Check syntax
+          command: ansible-playbook <playbook>.yml --syntax-check
+        - label: Show facts
+          command: ansible <host> -m setup
+        - label: List all modules
+          command: ansible-doc -l
+        - label: Show module info
+          command: ansible-doc <module>
+        - label: Encrypt file with vault
+          command: ansible-vault encrypt <file>
+        - label: Decrypt file with vault
+          command: ansible-vault decrypt <file>
+        - label: Edit file with vault
+          command: ansible-vault edit <file>
+        - label: View playbook diff
+          command: ansible-playbook <playbook>.yml --diff
+        - label: Limit hosts
+          command: ansible-playbook <playbook>.yml --limit <host>
+        - label: Run ad-hoc command
+          command: ansible <host> -m <module> -a "<args>"
+        - label: List groups
+          command: ansible-inventory --list | jq '._meta.hostvars'
+        - label: Check playbook tags
+          command: ansible-playbook <playbook>.yml --list-tags
+        - label: List tasks in playbook
+          command: ansible-playbook <playbook>.yml --list-tasks
+        - label: Run playbook with tags
+          command: ansible-playbook <playbook>.yml --tags <tag>
+        - label: Run playbook and skip tags
+          command: ansible-playbook <playbook>.yml --skip-tags <tag>
+        - label: Show inventory graph
+          command: ansible-inventory --graph
+        - label: Run playbook with extra vars
+          command: ansible-playbook <playbook>.yml --extra-vars "var=value"
+        - label: Run playbook in check mode
+          command: ansible-playbook <playbook>.yml --check
+        - label: Show failed hosts
+          command: ansible <host> -m setup | grep FAILED
+        - label: List unreachable hosts
+          command: ansible <host> -m ping | grep UNREACHABLE
+        - label: Run playbook with verbose output
+          command: ansible-playbook <playbook>.yml -vvv
+
+    - name: Terraform Commands
+      commands:
+        - label: Init Terraform
+          command: terraform init
+        - label: Plan changes
+          command: terraform plan
+        - label: Apply changes
+          command: terraform apply
+        - label: Destroy resources
+          command: terraform destroy
+        - label: Show state
+          command: terraform show
+        - label: List resources
+          command: terraform state list
+        - label: Validate config
+          command: terraform validate
+        - label: Format config
+          command: terraform fmt
+        - label: Output values
+          command: terraform output
+        - label: Import resource
+          command: terraform import <address> <id>
+        - label: Refresh state
+          command: terraform refresh
+        - label: Show providers
+          command: terraform providers
+        - label: Show graph
+          command: terraform graph
+        - label: Remove resource from state
+          command: terraform state rm <address>
+        - label: Move resource in state
+          command: terraform state mv <src> <dest>
+        - label: Replace provider
+          command: terraform providers lock
+        - label: Unlock state
+          command: terraform force-unlock <ID>
+        - label: List all workspaces
+          command: terraform workspace list
+        - label: Select workspace
+          command: terraform workspace select <name>
+        - label: Create workspace
+          command: terraform workspace new <name>
+        - label: Delete workspace
+          command: terraform workspace delete <name>
+        - label: Show backend config
+          command: terraform providers schema -json
+        - label: Show state file
+          command: cat terraform.tfstate | jq
+        - label: Show plan in JSON
+          command: terraform show -json plan.out
+
+- name: SCM & CI/CD
+  subsections:
+    - name: Git Commands
+      commands:
+        - label: Clone repo
+          command: git clone <repo_url>
+        - label: Status
+          command: git status
+        - label: Pull latest
+          command: git pull
+        - label: Add files
+          command: git add .
+        - label: Commit
+          command: git commit -m "message"
+        - label: Push
+          command: git push
+        - label: Branch list
+          command: git branch
+        - label: Checkout branch
+          command: git checkout <branch>
+        - label: Merge branch
+          command: git merge <branch>
+        - label: View log
+          command: git log --oneline
+        - label: Reset hard
+          command: git reset --hard HEAD~1
+        - label: Stash changes
+          command: git stash
+        - label: Apply stash
+          command: git stash apply
+        - label: Delete branch
+          command: git branch -d <branch>
+        - label: Show remote
+          command: git remote -v
+        - label: Show diff
+          command: git diff
+        - label: Rebase branch
+          command: git rebase <branch>
+        - label: Amend last commit
+          command: git commit --amend
+        - label: Fetch all
+          command: git fetch --all
+        - label: Show tags
+          command: git tag
+        - label: Create tag
+          command: git tag <tag>
+        - label: Push tag
+          command: git push origin <tag>
+        - label: Blame a file
+          command: git blame <file>
+        - label: Show file history
+          command: git log <file>
+        - label: Git config list
+          command: git config --list
+
+    - name: Jenkins CLI
+      commands:
+        - label: List jobs
+          command: java -jar jenkins-cli.jar -s <url> list-jobs
+        - label: Build job
+          command: java -jar jenkins-cli.jar -s <url> build <job>
+        - label: Get job info
+          command: java -jar jenkins-cli.jar -s <url> get-job <job>
+        - label: Create job
+          command: java -jar jenkins-cli.jar -s <url> create-job <job> < config.xml
+        - label: Delete job
+          command: java -jar jenkins-cli.jar -s <url> delete-job <job>
+        - label: Jenkins system info
+          command: java -jar jenkins-cli.jar -s <url> system-info
+        - label: Reload Jenkins
+          command: java -jar jenkins-cli.jar -s <url> reload-configuration
+        - label: Who am I
+          command: java -jar jenkins-cli.jar -s <url> who-am-i
+        - label: Install plugin
+          command: java -jar jenkins-cli.jar -s <url> install-plugin <plugin>
+        - label: Safe restart Jenkins
+          command: java -jar jenkins-cli.jar -s <url> safe-restart
+        - label: List plugins
+          command: java -jar jenkins-cli.jar -s <url> list-plugins
+        - label: Disable job
+          command: java -jar jenkins-cli.jar -s <url> disable-job <job>
+        - label: Enable job
+          command: java -jar jenkins-cli.jar -s <url> enable-job <job>
+        - label: Get build info
+          command: java -jar jenkins-cli.jar -s <url> get-build <job> <build>
+        - label: List nodes
+          command: java -jar jenkins-cli.jar -s <url> list-nodes
+        - label: Delete node
+          command: java -jar jenkins-cli.jar -s <url> delete-node <node>
+        - label: Create node
+          command: java -jar jenkins-cli.jar -s <url> create-node <node>
+        - label: Disconnect node
+          command: java -jar jenkins-cli.jar -s <url> disconnect-node <node>
+        - label: Connect node
+          command: java -jar jenkins-cli.jar -s <url> connect-node <node>
+        - label: List builds
+          command: java -jar jenkins-cli.jar -s <url> list-builds <job>
+
+- name: Cloud
+  subsections:
+    - name: AWS CLI
+      commands:
+        - label: List S3 buckets
+          command: aws s3 ls
+        - label: Copy to S3
+          command: aws s3 cp <file> s3://<bucket>/
+        - label: List EC2 instances
+          command: aws ec2 describe-instances
+        - label: Start EC2 instance
+          command: aws ec2 start-instances --instance-ids <id>
+        - label: Stop EC2 instance
+          command: aws ec2 stop-instances --instance-ids <id>
+        - label: List IAM users
+          command: aws iam list-users
+        - label: Describe VPCs
+          command: aws ec2 describe-vpcs
+        - label: List Lambda functions
+          command: aws lambda list-functions
+        - label: Configure AWS CLI
+          command: aws configure
+        - label: List AWS regions
+          command: aws ec2 describe-regions --all-regions
+        - label: List EC2 key pairs
+          command: aws ec2 describe-key-pairs
+        - label: List S3 objects in bucket
+          command: aws s3 ls s3://<bucket>/
+        - label: Assume role
+          command: aws sts assume-role --role-arn <arn> --role-session-name <name>
+        - label: List security groups
+          command: aws ec2 describe-security-groups
+        - label: List CloudFormation stacks
+          command: aws cloudformation describe-stacks
+        - label: Get CloudWatch logs
+          command: aws logs describe-log-groups
+        - label: List EBS volumes
+          command: aws ec2 describe-volumes
+        - label: List RDS instances
+          command: aws rds describe-db-instances
+        - label: List ECS clusters
+          command: aws ecs list-clusters
+        - label: List ECS services
+          command: aws ecs list-services --cluster <cluster>
+        - label: List Lambda event source mappings
+          command: aws lambda list-event-source-mappings
+        - label: List SQS queues
+          command: aws sqs list-queues
+        - label: Publish SNS message
+          command: aws sns publish --topic-arn <arn> --message "msg"
+
+    - name: Azure CLI
+      commands:
+        - label: List resource groups
+          command: az group list
+        - label: List VMs
+          command: az vm list
+        - label: Start VM
+          command: az vm start --name <name> --resource-group <group>
+        - label: Stop VM
+          command: az vm deallocate --name <name> --resource-group <group>
+        - label: List storage accounts
+          command: az storage account list
+        - label: Login to Azure
+          command: az login
+        - label: List subscriptions
+          command: az account list
+        - label: Set subscription
+          command: az account set --subscription <id>
+        - label: List AKS clusters
+          command: az aks list
+        - label: List SQL servers
+          command: az sql server list
+        - label: Create resource group
+          command: az group create --name <name> --location <region>
+        - label: Delete resource group
+          command: az group delete --name <name>
+        - label: List VM sizes
+          command: az vm list-sizes --location <region>
+        - label: List VM images
+          command: az vm image list
+        - label: List VM extensions
+          command: az vm extension image list
+        - label: List disks
+          command: az disk list
+        - label: List networking interfaces
+          command: az network nic list
+        - label: List public IPs
+          command: az network public-ip list
+        - label: List NSGs
+          command: az network nsg list
+        - label: List load balancers
+          command: az network lb list
+        - label: List App Services
+          command: az webapp list
+        - label: List Cosmos DB accounts
+          command: az cosmosdb list
+        - label: List Key Vaults
+          command: az keyvault list
+
+    - name: GCP CLI
+      commands:
+        - label: List projects
+          command: gcloud projects list
+        - label: List compute instances
+          command: gcloud compute instances list
+        - label: Start instance
+          command: gcloud compute instances start <name>
+        - label: Stop instance
+          command: gcloud compute instances stop <name>
+        - label: List storage buckets
+          command: gsutil ls
+        - label: Auth login
+          command: gcloud auth login
+        - label: List zones
+          command: gcloud compute zones list
+        - label: Describe instance
+          command: gcloud compute instances describe <name>
+        - label: Set project
+          command: gcloud config set project <project>
+        - label: List service accounts
+          command: gcloud iam service-accounts list
+        - label: List firewall rules
+          command: gcloud compute firewall-rules list
+        - label: List images
+          command: gcloud compute images list
+        - label: List disks
+          command: gcloud compute disks list
+        - label: List networks
+          command: gcloud compute networks list
+        - label: List subnets
+          command: gcloud compute networks subnets list
+        - label: List forwarding rules
+          command: gcloud compute forwarding-rules list
+        - label: List target pools
+          command: gcloud compute target-pools list
+        - label: List HTTP health checks
+          command: gcloud compute health-checks list
+        - label: List backend services
+          command: gcloud compute backend-services list
+        - label: List cloud functions
+          command: gcloud functions list
+        - label: List pubsub topics
+          command: gcloud pubsub topics list
+        - label: List pubsub subscriptions
+          command: gcloud pubsub subscriptions list
+        - label: List SQL instances
+          command: gcloud sql instances list
+        - label: List Kubernetes clusters
+          command: gcloud container clusters list
+
+- name: Monitoring & Logging
+  subsections:
+    - name: Prometheus
+      commands:
+        - label: Query metric
+          command: curl -g 'http://localhost:9090/api/v1/query?query=<metric>'
+        - label: Reload config
+          command: kill -HUP $(pidof prometheus)
+        - label: List targets
+          command: curl http://localhost:9090/api/v1/targets
+        - label: List alerts
+          command: curl http://localhost:9090/api/v1/alerts
+        - label: Query range
+          command: curl -g 'http://localhost:9090/api/v1/query_range?query=<metric>&start=<start>&end=<end>&step=<step>'
+        - label: Show config
+          command: curl http://localhost:9090/api/v1/status/config
+        - label: Show rules
+          command: curl http://localhost:9090/api/v1/rules
+        - label: Reload Prometheus
+          command: curl -X POST http://localhost:9090/-/reload
+        - label: Check Prometheus version
+          command: prometheus --version
+        - label: Show Prometheus help
+          command: prometheus --help
+        - label: List TSDB stats
+          command: curl http://localhost:9090/api/v1/tsdb
+        - label: Show Prometheus flags
+          command: prometheus --config.file=prometheus.yml --help
+        - label: Show status
+          command: curl http://localhost:9090/-/status
+        - label: List Prometheus series
+          command: curl -g 'http://localhost:9090/api/v1/series?match[]=<metric>'
+        - label: Show Prometheus build info
+          command: curl http://localhost:9090/api/v1/status/buildinfo
+        - label: List Prometheus label names
+          command: curl http://localhost:9090/api/v1/labels
+        - label: List Prometheus label values
+          command: curl http://localhost:9090/api/v1/label/<label>/values
+        - label: Delete Prometheus TSDB data
+          command: rm -rf /prometheus/data/*
+        - label: Start Prometheus server
+          command: prometheus --config.file=prometheus.yml
+        - label: Stop Prometheus server
+          command: pkill prometheus
+        - label: Show Prometheus configuration
+          command: cat prometheus.yml
+        - label: Show Prometheus targets
+          command: curl http://localhost:9090/api/v1/targets
+        - label: Show Prometheus alerts
+          command: curl http://localhost:9090/api/v1/alerts
+        - label: Check Prometheus health
+          command: curl -I http://localhost:9090/-/healthy
+
+    - name: Grafana
+      commands:
+        - label: Restart service (systemd)
+          command: systemctl restart grafana-server
+        - label: View logs
+          command: journalctl -u grafana-server
+        - label: Restart Grafana (container)
+          command: docker restart <grafana_container>
+        - label: List plugins
+          command: grafana-cli plugins ls
+        - label: Install plugin
+          command: grafana-cli plugins install <plugin_id>
+        - label: Remove plugin
+          command: grafana-cli plugins uninstall <plugin_id>
+        - label: Backup dashboards
+          command: grafana-backup save
+        - label: Restore dashboards
+          command: grafana-backup restore
+        - label: Change admin password
+          command: grafana-cli admin reset-admin-password <password>
+        - label: Show Grafana version
+          command: grafana-server -v
+        - label: Show Grafana config
+          command: cat /etc/grafana/grafana.ini
+        - label: Test Grafana API
+          command: curl http://localhost:3000/api/health
+        - label: Reload Grafana config
+          command: systemctl reload grafana-server
+        - label: Enable Grafana service
+          command: systemctl enable grafana-server
+
+    - name: ELK Stack
+      commands:
+        - label: Restart Logstash
+          command: systemctl restart logstash
+        - label: Check Elasticsearch cluster health
+          command: curl -XGET 'localhost:9200/_cluster/health?pretty'
+        - label: Tail Filebeat logs
+          command: tail -f /var/log/filebeat/filebeat
+        - label: List Elasticsearch indexes
+          command: curl -X GET 'localhost:9200/_cat/indices?v'
+        - label: Show Kibana version
+          command: curl -XGET 'localhost:5601/api/status'
+        - label: Show Logstash config
+          command: cat /etc/logstash/conf.d/*.conf
+        - label: Show Elasticsearch nodes
+          command: curl -X GET 'localhost:9200/_cat/nodes?v'
+        - label: Show Elasticsearch cluster state
+          command: curl -XGET 'localhost:9200/_cluster/state?pretty'
+        - label: Restart Elasticsearch
+          command: systemctl restart elasticsearch
+        - label: Restart Kibana
+          command: systemctl restart kibana
+        - label: Show Kibana logs
+          command: journalctl -u kibana
+        - label: Show Elasticsearch logs
+          command: journalctl -u elasticsearch
+        - label: Delete Elasticsearch index
+          command: curl -XDELETE 'localhost:9200/<index>'
+        - label: Create Elasticsearch index
+          command: curl -XPUT 'localhost:9200/<index>'
+        - label: List Filebeat modules
+          command: filebeat modules list
+        - label: Enable Filebeat module
+          command: filebeat modules enable <module>
+        - label: Disable Filebeat module
+          command: filebeat modules disable <module>
+        - label: Test Filebeat config
+          command: filebeat test config
+        - label: Setup Filebeat
+          command: filebeat setup
+        - label: Reload Logstash config
+          command: systemctl reload logstash
+        - label: Show Logstash version
+          command: logstash --version
+        - label: Show Filebeat version
+          command: filebeat version
+
+- name: Security
+  subsections:
+    - name: SSH & Certificates
+      commands:
+        - label: Generate SSH key
+          command: ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+        - label: Copy SSH key to server
+          command: ssh-copy-id user@host
+        - label: Show certificate info
+          command: openssl x509 -in cert.pem -noout -text
+        - label: Generate CSR
+          command: openssl req -new -key key.pem -out req.csr
+        - label: Check SSH fingerprint
+          command: ssh-keygen -lf /etc/ssh/ssh_host_rsa_key.pub
+        - label: Verify certificate expiry
+          command: openssl x509 -enddate -noout -in cert.pem
+        - label: Check certificate issuer
+          command: openssl x509 -issuer -noout -in cert.pem
+        - label: Create self-signed certificate
+          command: openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+        - label: Show private key info
+          command: openssl rsa -in key.pem -check
+        - label: Convert PEM to DER
+          command: openssl x509 -in cert.pem -outform der -out cert.der
+        - label: Convert DER to PEM
+          command: openssl x509 -in cert.der -inform der -out cert.pem
+        - label: Verify certificate chain
+          command: openssl verify -CAfile ca.pem cert.pem
+        - label: Generate Diffie-Hellman params
+          command: openssl dhparam -out dhparam.pem 2048
+        - label: Check SSL connection
+          command: openssl s_client -connect <host>:443
+        - label: Generate PKCS#12 archive
+          command: openssl pkcs12 -export -out cert.pfx -inkey key.pem -in cert.pem
+
+    - name: Firewall & SELinux
+      commands:
+        - label: Check firewall status
+          command: sudo systemctl status firewalld
+        - label: Start firewall
+          command: sudo systemctl start firewalld
+        - label: Stop firewall
+          command: sudo systemctl stop firewalld
+        - label: Enable firewall
+          command: sudo systemctl enable firewalld
+        - label: Add firewall rule
+          command: sudo firewall-cmd --add-port=8080/tcp --permanent
+        - label: Reload firewall
+          command: sudo firewall-cmd --reload
+        - label: List open firewall ports
+          command: sudo firewall-cmd --list-ports
+        - label: Check SELinux status
+          command: getenforce
+        - label: Set SELinux to permissive
+          command: setenforce 0
+        - label: Set SELinux to enforcing
+          command: setenforce 1
+        - label: View SELinux config
+          command: cat /etc/selinux/config
+        - label: Show firewall rules
+          command: sudo iptables -L
+        - label: Enable port in firewall (firewalld)
+          command: sudo firewall-cmd --permanent --add-port=<port>/tcp
+        - label: Disable port in firewall (firewalld)
+          command: sudo firewall-cmd --permanent --remove-port=<port>/tcp
+        - label: Reload SELinux policy
+          command: sudo load_policy
+        - label: List SELinux booleans
+          command: getsebool -a
+        - label: Set SELinux boolean
+          command: setsebool -P <boolean> on
+        - label: Show current SELinux context
+          command: id -Z
+        - label: Change SELinux context of file
+          command: chcon --type=httpd_sys_content_t <file>
+        - label: Restore SELinux context
+          command: restorecon -v <file>
+        - label: List SELinux file contexts
+          command: semanage fcontext -l
+        - label: Add SELinux port type
+          command: semanage port -a -t http_port_t -p tcp <port>
+        - label: Delete SELinux port type
+          command: semanage port -d -t http_port_t -p tcp <port>

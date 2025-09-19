@@ -1,0 +1,25 @@
+.copyright-marquee {
+  width: 100vw;
+  overflow: hidden;
+  background: #1a1a1a;
+  color: #fff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  font-weight: 500;
+  font-size: 1.1em;
+  height: 32px;
+  display: flex;
+  align-items: center;
+}
+.copyright-marquee span {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100vw;
+  animation: marquee 14s linear infinite;
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100vw); }
+}
