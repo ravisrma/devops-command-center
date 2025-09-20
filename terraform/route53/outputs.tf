@@ -3,14 +3,14 @@ output "frontend_url" {
 }
 
 output "backend_url" {
-  value = var.load_balancer_type == "network" ? "http://${var.backend_subdomain}.${var.root_domain}:${var.backend_port}" : "http://${var.backend_subdomain}.${var.root_domain}/api"
+  value = "http://${var.backend_subdomain}.${var.root_domain}:8000"
 }
 
 output "load_balancer_info" {
   value = {
-    type = var.load_balancer_type
+    type = "network"
     frontend_access = "http://${var.frontend_subdomain}.${var.root_domain}"
-    backend_access = var.load_balancer_type == "network" ? "http://${var.backend_subdomain}.${var.root_domain}:${var.backend_port}" : "http://${var.backend_subdomain}.${var.root_domain}/api"
-    note = var.load_balancer_type == "network" ? "NLB: Backend accessible on port ${var.backend_port}" : "ALB: Backend accessible via /api path"
+    backend_access = "http://${var.backend_subdomain}.${var.root_domain}:8000"
+    note = "NLB: Frontend on port 80, Backend on port 8000"
   }
 }

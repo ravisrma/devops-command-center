@@ -1,134 +1,79 @@
-# Application Load Balancer (preferred)
-resource "aws_lb" "main" {
-  count              = var.use_nlb_fallback ? 0 : 1
-  name               = "main-alb"
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [var.alb_sg_id]
-  subnets            = var.public_subnets
-}
-
-# Network Load Balancer (fallback)
-resource "aws_lb" "nlb_fallback" {
-  count              = var.use_nlb_fallback ? 1 : 0
+# Network Load Balancer (NLB)
+resource "aws_lb" "nlb" {
   name               = "main-nlb"
   internal           = false
   load_balancer_type = "network"
   subnets            = var.public_subnets
+
+  enable_deletion_protection = false
+
+  tags = {
+    Name = "main-nlb"
+  }
 }
 
-resource "aws_lb_target_group" "tg_backend" {
-  name         = "tg-backend"
-  port         = 8000
-  protocol     = var.use_nlb_fallback ? "TCP" : "HTTP"
-  vpc_id       = var.vpc_id
-  target_type  = "ip"
+# Backend target group for NLB - using new name to avoid state conflicts
+resource "aws_lb_target_group" "backend_nlb" {
+  name        = "backend-nlb-tg"
+  port        = 8000
+  protocol    = "TCP"
+  vpc_id      = var.vpc_id
+  target_type = "ip"
   
-  # HTTP health check for ALB
-  dynamic "health_check" {
-    for_each = var.use_nlb_fallback ? [] : [1]
-    content {
-      enabled             = true
-      path                = "/"
-      port                = "traffic-port"
-      protocol            = "HTTP"
-      interval            = 30
-      timeout             = 5
-      healthy_threshold   = 2
-      unhealthy_threshold = 2
-      matcher             = "200-399"
-    }
+  health_check {
+    protocol            = "TCP"
+    port                = "traffic-port"
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    interval            = 30
   }
 
-  # TCP health check for NLB
-  dynamic "health_check" {
-    for_each = var.use_nlb_fallback ? [1] : []
-    content {
-      enabled             = true
-      port                = "traffic-port"
-      protocol            = "TCP"
-      interval            = 30
-      healthy_threshold   = 3
-      unhealthy_threshold = 3
-    }
+  tags = {
+    Name = "backend-nlb-target-group"
   }
 }
 
-resource "aws_lb_target_group" "tg_frontend" {
-  name         = "tg-frontend"
-  port         = 3000
-  protocol     = var.use_nlb_fallback ? "TCP" : "HTTP"
-  vpc_id       = var.vpc_id
-  target_type  = "ip"
+# Frontend target group for NLB - using new name to avoid state conflicts
+resource "aws_lb_target_group" "frontend_nlb" {
+  name        = "frontend-nlb-tg"
+  port        = 3000
+  protocol    = "TCP"
+  vpc_id      = var.vpc_id
+  target_type = "ip"
   
-  # HTTP health check for ALB
-  dynamic "health_check" {
-    for_each = var.use_nlb_fallback ? [] : [1]
-    content {
-      enabled             = true
-      path                = "/"
-      port                = "traffic-port"
-      protocol            = "HTTP"
-      interval            = 30
-      timeout             = 5
-      healthy_threshold   = 2
-      unhealthy_threshold = 2
-      matcher             = "200-399"
-    }
+  health_check {
+    protocol            = "TCP"
+    port                = "traffic-port"
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+    interval            = 30
   }
 
-  # TCP health check for NLB
-  dynamic "health_check" {
-    for_each = var.use_nlb_fallback ? [1] : []
-    content {
-      enabled             = true
-      port                = "traffic-port"
-      protocol            = "TCP"
-      interval            = 30
-      healthy_threshold   = 3
-      unhealthy_threshold = 3
-    }
+  tags = {
+    Name = "frontend-nlb-target-group"
   }
 }
 
-resource "aws_lb_listener" "http" {
-  load_balancer_arn = var.use_nlb_fallback ? aws_lb.nlb_fallback[0].arn : aws_lb.main[0].arn
-  port              = 80
-  protocol          = var.use_nlb_fallback ? "TCP" : "HTTP"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.tg_frontend.arn
-  }
-}
-
-# Listener rule only works with ALB, not NLB
-resource "aws_lb_listener_rule" "api_path" {
-  count        = var.use_nlb_fallback ? 0 : 1
-  listener_arn = aws_lb_listener.http.arn
-  priority     = 100
-
-  action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.tg_backend.arn
-  }
-
-  condition {
-    path_pattern {
-      values = ["/api/*"]
-    }
-  }
-}
-
-# For NLB, we need separate listeners for backend
-resource "aws_lb_listener" "nlb_backend" {
-  count             = var.use_nlb_fallback ? 1 : 0
-  load_balancer_arn = aws_lb.nlb_fallback[0].arn
-  port              = 8000
+# Frontend listener (port 80)
+resource "aws_lb_listener" "frontend" {
+  load_balancer_arn = aws_lb.nlb.arn
+  port              = "80"
   protocol          = "TCP"
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.tg_backend.arn
+    target_group_arn = aws_lb_target_group.frontend_nlb.arn
+  }
+}
+
+# Backend listener (port 8000)
+resource "aws_lb_listener" "backend" {
+  load_balancer_arn = aws_lb.nlb.arn
+  port              = "8000"
+  protocol          = "TCP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.backend_nlb.arn
   }
 }
