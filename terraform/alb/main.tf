@@ -24,10 +24,14 @@ resource "aws_lb_target_group" "tg_backend" {
   vpc_id       = var.vpc_id
   target_type  = "ip"
   
+  # HTTP health check for ALB
   dynamic "health_check" {
     for_each = var.use_nlb_fallback ? [] : [1]
     content {
+      enabled             = true
       path                = "/"
+      port                = "traffic-port"
+      protocol            = "HTTP"
       interval            = 30
       timeout             = 5
       healthy_threshold   = 2
@@ -36,13 +40,16 @@ resource "aws_lb_target_group" "tg_backend" {
     }
   }
 
+  # TCP health check for NLB
   dynamic "health_check" {
     for_each = var.use_nlb_fallback ? [1] : []
     content {
+      enabled             = true
+      port                = "traffic-port"
       protocol            = "TCP"
       interval            = 30
-      healthy_threshold   = 2
-      unhealthy_threshold = 2
+      healthy_threshold   = 3
+      unhealthy_threshold = 3
     }
   }
 }
@@ -54,10 +61,14 @@ resource "aws_lb_target_group" "tg_frontend" {
   vpc_id       = var.vpc_id
   target_type  = "ip"
   
+  # HTTP health check for ALB
   dynamic "health_check" {
     for_each = var.use_nlb_fallback ? [] : [1]
     content {
+      enabled             = true
       path                = "/"
+      port                = "traffic-port"
+      protocol            = "HTTP"
       interval            = 30
       timeout             = 5
       healthy_threshold   = 2
@@ -66,13 +77,16 @@ resource "aws_lb_target_group" "tg_frontend" {
     }
   }
 
+  # TCP health check for NLB
   dynamic "health_check" {
     for_each = var.use_nlb_fallback ? [1] : []
     content {
+      enabled             = true
+      port                = "traffic-port"
       protocol            = "TCP"
       interval            = 30
-      healthy_threshold   = 2
-      unhealthy_threshold = 2
+      healthy_threshold   = 3
+      unhealthy_threshold = 3
     }
   }
 }
