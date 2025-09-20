@@ -22,6 +22,7 @@ module "alb" {
   vpc_id         = module.vpc.vpc_id
   public_subnets = module.vpc.public_subnets
   alb_sg_id      = module.sg.alb_sg_id
+  use_nlb_fallback = var.use_nlb_fallback
 }
 
 module "ecs" {
@@ -43,4 +44,6 @@ module "route53" {
   root_domain        = var.root_domain
   frontend_subdomain = var.frontend_subdomain
   backend_subdomain  = var.backend_subdomain
+  load_balancer_type = module.alb.load_balancer_type
+  backend_port       = 8000
 }
